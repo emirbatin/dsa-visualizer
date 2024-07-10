@@ -7,11 +7,11 @@ Data Structure Visualizer, veri yapıları ve algoritmaların çalışma prensip
 
 ## Algoritmalar
 
-- Stack
-- Sorting
-- Linked List
-- Binary Tree
-* İlerleyen zamanlarda devamı gelecek.
+- Stack: Stack yapısını görsel olarak oluşturun ve ekleme (push) ve çıkarma (pop) işlemlerini animasyonlu bir şekilde izleyin.
+- Sıralama: Bubble Sort, Quick Sort, Merge Sort gibi popüler sıralama algoritmalarını adım adım görselleştirin.
+- Linked List: Bağlı listelerin ekleme, çıkarma ve gezinme işlemlerini görsel olarak deneyimleyin.
+- Binary Tree: Binary Tree yapılarını görselleştirerek düğüm ekleme, silme ve ağaç traversi işlemlerini keşfedin.
+* Gelecek Güncellemeler: İlerleyen zamanlarda daha fazla algoritma ve veri yapısı eklenecektir.
 
 
 ## Kurulum & Kullanım
@@ -37,12 +37,12 @@ Uygulamayı Başlatın:
 
 ## Demo
 
-Insert gif or link to demo
+Eklenecek
 
 
-## Feedback
+## Geri Bildirim
 
-Her hangi bir geri dönüş ya da sorunuz, merak ettikleriniz olursa bana bu adresten ulaşabilirsiniz: msg@codewithbatin.com
+Herhangi bir geri dönüş ya da sorunuz, merak ettikleriniz olursa bana şu adresten ulaşabilirsiniz: msg@codewithbatin.com
 
 
 ## License
