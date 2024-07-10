@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import AccordionComponent from "./Accordion";
+import AccordionComponent from "../Accordion";
 
 const ArrayVisualizer = () => {
   const [array, setArray] = useState([]);

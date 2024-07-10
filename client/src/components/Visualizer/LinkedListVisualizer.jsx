@@ -1,7 +1,8 @@
 import React, { useState, useCallback, useMemo } from "react";
-import { ArrowRightIcon } from "@heroicons/react/24/solid";
-import AccordionComponent from "./Accordion";
-import usePanZoom from "../hooks/usePanZoom";
+import AccordionComponent from "../Accordion";
+import AlertPopup from "../AlertPopup";
+import LinkedListNode from "../LinkedListNode";
+import usePanZoom from "../../hooks/usePanZoom";
 
 const INITIAL_STATE = {
   linkedList: [],
@@ -300,45 +301,6 @@ const LinkedListVisualizer = () => {
     [state.inputValue, handleCreate, handleSearch, handleInsert, handleRemove]
   );
 
-  const renderNode = useCallback(
-    (value, index) => {
-      const isLast = index === state.linkedList.length - 1;
-      const nodeColor =
-        state.foundIndex === index || state.currentSearchIndex === index
-          ? COLORS.found
-          : COLORS.default;
-      const nextColor =
-        state.nextHighlightIndex === index && state.foundIndex === null
-          ? COLORS.current
-          : COLORS.default;
-
-      return (
-        <div key={index} className="flex items-center">
-          <div className="border-2 border-black border-opacity-0 flex flex-col">
-            <div className={`px-4 py-2 ${nodeColor} text-white`}>data</div>
-            <div className="px-4 py-2 bg-white text-black">{value}</div>
-          </div>
-          <div className="border-2 border-black border-opacity-0 flex flex-col">
-            <div className={`px-4 py-2 ${nextColor} text-white`}>next</div>
-            <div className="px-4 py-2 bg-white">
-              {!isLast ? (
-                <ArrowRightIcon className="h-6 w-6 text-black" />
-              ) : (
-                <p className="text-black">Null</p>
-              )}
-            </div>
-          </div>
-        </div>
-      );
-    },
-    [
-      state.linkedList,
-      state.foundIndex,
-      state.currentSearchIndex,
-      state.nextHighlightIndex,
-    ]
-  );
-
   return (
     <div className="p-4">
       <div
@@ -347,13 +309,34 @@ const LinkedListVisualizer = () => {
           transform: `scale(${scale}) translate(${position.x}px, ${position.y}px)`,
           transformOrigin: "0 0",
           cursor: dragging ? "grabbing" : "grab",
-          width: "100vw",
-          height: "100vh",
+          width: "200vw",
+          height: "200vh",
           overflow: "hidden",
         }}
       >
         <div className="flex items-center mt-4">
-          {state.linkedList.length > 0 ? state.linkedList.map(renderNode) : null}
+          {state.linkedList.length > 0
+            ? state.linkedList.map((value, index) => (
+                <LinkedListNode
+                  key={index}
+                  value={value}
+                  index={index}
+                  isLast={index === state.linkedList.length - 1}
+                  nodeColor={
+                    state.foundIndex === index ||
+                    state.currentSearchIndex === index
+                      ? COLORS.found
+                      : COLORS.default
+                  }
+                  nextColor={
+                    state.nextHighlightIndex === index &&
+                    state.foundIndex === null
+                      ? COLORS.current
+                      : COLORS.default
+                  }
+                />
+              ))
+            : null}
         </div>
       </div>
 
@@ -361,9 +344,11 @@ const LinkedListVisualizer = () => {
         <AccordionComponent items={accordionItems} />
       </div>
       {state.showPopup && (
-        <div className="fixed bottom-10 right-10 bg-red-500 text-white p-4 rounded">
-          {state.popupMessage}
-        </div>
+        <AlertPopup
+          show={state.showPopup}
+          message={state.popupMessage}
+          onClose={() => setState((prev) => ({ ...prev, showPopup: false }))}
+        />
       )}
     </div>
   );
