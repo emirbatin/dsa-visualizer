@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useMemo } from "react";
-import AccordionComponent from "./Accordion";
+import AccordionComponent from "../Accordion";
 import { Slider } from "@nextui-org/react";
 
 const INITIAL_STATE = {

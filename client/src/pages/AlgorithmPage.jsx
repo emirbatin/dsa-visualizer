@@ -1,7 +1,7 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import { algorithmContent } from "../data/algorithmContent";
-import visualizers from "../components/Visualizers";
+import visualizers from "../components/Visualizer/Visualizers";
 import { Spacer } from "@nextui-org/spacer";
 
 const AlgorithmPage = () => {
@@ -24,12 +24,12 @@ const AlgorithmPage = () => {
         display: "flex",
         flexDirection: "column",
         height: "100vh",
-        padding: 20,
+
       }}
     >
       <div style={{ display: "flex", flexDirection: "row" }}>
         {/*Left - Visualizer */}
-        <div style={{ flex: 2, padding: 20, overflowY: "auto" }}>
+        <div style={{ flex: 2, padding: 0, overflowY: "auto" }}>
           <VisualizerComponent />
         </div>
         {/*Right - Details */}

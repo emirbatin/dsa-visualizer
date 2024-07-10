@@ -10,12 +10,22 @@ import {
   Dropdown,
   DropdownMenu,
   Avatar,
+  useDisclosure,
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Checkbox,
+  Button,
 } from "@nextui-org/react";
 import { useLocation } from "react-router-dom";
+import { EnvelopeIcon, LockClosedIcon } from "@heroicons/react/24/outline";
 
 const Navbar = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const location = useLocation();
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   const getLinks = () => {
     switch (location.pathname) {
@@ -44,6 +54,11 @@ const Navbar = () => {
             text: "Doubly Linked List",
           },
           { href: "/algorithm/linkedlist/deque", text: "Deque" },
+        ];
+        case "/algorithm/binarytree":
+        return [
+          { href: "/algorithm/linkedlist", text: "Binary Search Tree" },
+          { href: "/algorithm/linkedlist/AVL", text: "AVL Tree" },
         ];
       default:
         return [];
@@ -141,17 +156,72 @@ const Navbar = () => {
             </DropdownMenu>
           </Dropdown>
         ) : (
-          <Link
-            href="#"
-            color="secondary"
-            onPress={() => {
-              console.log("Logged in");
-              setIsLoggedIn(true);
-            }}
-          >
+          <Link href="#" color="secondary" onPress={onOpen}>
             Log In
           </Link>
         )}
+        <Modal
+          isOpen={isOpen}
+          onOpenChange={onOpenChange}
+          placement="top-center"
+        >
+          <ModalContent>
+            {(onClose) => (
+              <>
+                <ModalHeader className="flex flex-col gap-1">
+                  Log in
+                </ModalHeader>
+                <ModalBody>
+                  <Input
+                    autoFocus
+                    endContent={
+                      <EnvelopeIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                    }
+                    type="email"
+                    label="Email"
+                    placeholder="Enter your email"
+                    variant="bordered"
+                  />
+                  <Input
+                    endContent={
+                      <LockClosedIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                    }
+                    type="password"
+                    label="Password"
+                    placeholder="Enter your password"
+                    variant="bordered"
+                  />
+                  <div className="flex py-2 px-1 justify-between">
+                    <Checkbox
+                      classNames={{
+                        label: "text-small",
+                      }}
+                    >
+                      Remember me
+                    </Checkbox>
+                    <Link color="primary" href="#" size="sm">
+                      Forgot password?
+                    </Link>
+                  </div>
+                </ModalBody>
+                <ModalFooter>
+                  <Button color="danger" variant="flat" onPress={onClose}>
+                    Close
+                  </Button>
+                  <Button
+                    color="primary"
+                    onPress={() => {
+                      setIsLoggedIn(true);
+                      onClose();
+                    }}
+                  >
+                    Sign in
+                  </Button>
+                </ModalFooter>
+              </>
+            )}
+          </ModalContent>
+        </Modal>
       </NavbarContent>
     </NextUINavbar>
   );
