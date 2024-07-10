@@ -1,35 +1,35 @@
 
 # Data Structure & Algorithm Visualizer
 
-Data Structure Visualizer, veri yapıları ve algoritmaların çalışma prensiplerini daha iyi anlamanızı sağlamak amacıyla geliştirilmiş etkileşimli bir eğitim aracıdır. Bu uygulama, karmaşık veri yapıları ve algoritmaları görsel olarak açıklayarak, bilgisayar bilimi öğrencileri ve meraklıları için öğrenmeyi daha eğlenceli ve anlaşılır hale getirir.
+Data Structure Visualizer is an interactive educational tool developed to help you better understand the principles of data structures and algorithms. By visually explaining complex data structures and algorithms, this app makes learning more fun and understandable for computer science students and enthusiasts.
 
 
 
-## Algoritmalar
+## Algorithms
 
-- Stack: Stack yapısını görsel olarak oluşturun ve ekleme (push) ve çıkarma (pop) işlemlerini animasyonlu bir şekilde izleyin.
-- Sıralama: Bubble Sort, Quick Sort, Merge Sort gibi popüler sıralama algoritmalarını adım adım görselleştirin.
-- Linked List: Bağlı listelerin ekleme, çıkarma ve gezinme işlemlerini görsel olarak deneyimleyin.
-- Binary Tree: Binary Tree yapılarını görselleştirerek düğüm ekleme, silme ve ağaç traversi işlemlerini keşfedin.
-* Gelecek Güncellemeler: İlerleyen zamanlarda daha fazla algoritma ve veri yapısı eklenecektir.
+- Stack Create the stack structure visually and watch animated insertions (push) and removals (pop).
+- Sorting: Visualize popular sorting algorithms such as Bubble Sort, Quick Sort, Merge Sort step by step.
+- Linked List: Visually experience the insertion, deletion and navigation of linked lists.
+- Binary Tree: Explore node insertion, deletion and tree traversal by visualizing Binary Tree structures.
+* Future Updates: More algorithms and data structures will be added in the future.
 
 
-## Kurulum & Kullanım
+## Installation & Use
 
-Projeyi Klonlayın:
+Clone Project:
 
 ```bash
   git clone https://github.com/emirbatin/dsa-visualizer.git
 ```
 
-Gerekli Bağımlılıkları Yükleyin:
+Install Required Dependencies:
     
 ```bash
   cd data-structure-visualizer
   npm install
 ```
 
-Uygulamayı Başlatın:
+Launch the application:
 
 ```bash
   npm start
@@ -37,15 +37,14 @@ Uygulamayı Başlatın:
 
 ## Demo
 
-Eklenecek
+To be added
 
 
-## Geri Bildirim
+## Feedback
 
-Herhangi bir geri dönüş ya da sorunuz, merak ettikleriniz olursa bana şu adresten ulaşabilirsiniz: msg@codewithbatin.com
+If you have any feedback or questions, you can contact me at this address: msg@codewithbatin.com
 
 
 ## License
 
 [APGL](https://choosealicense.com/licenses/agpl-3.0/)
-
