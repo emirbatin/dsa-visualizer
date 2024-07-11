@@ -4,15 +4,17 @@ const mongoose = require("mongoose");
 const userRoutes = require("./routes/users");
 const path = require("path");
 const cors = require("cors");
+const fs = require("fs");
+const https = require("https");
 
 const app = express();
 
-// Ortam değişkenlerine göre veritabanı URI'sini seçme
+// Choose MongoDB URI based on environment
 const mongoUri = process.env.NODE_ENV === 'development'
   ? process.env.MONGO_URI_DEV
   : process.env.MONGO_URI_PROD;
 
-// Ortam değişkenlerine göre CORS ayarlarını yapma
+// CORS options based on environment
 const corsOptions = {
   origin: process.env.NODE_ENV === 'development' ? "http://localhost:3000" : "https://dsa-visualizer-api.vercel.app",
   methods: "GET,POST,PUT,DELETE,OPTIONS,PATCH",
@@ -20,13 +22,11 @@ const corsOptions = {
   credentials: true,
 };
 
-console.log(`Using Mongo URI: ${mongoUri}`); // Hangi URI'nin kullanıldığını kontrol etmek için
-console.log(`CORS Origin: ${corsOptions.origin}`); // CORS ayarını kontrol etmek için
+console.log(`Using Mongo URI: ${mongoUri}`);
+console.log(`CORS Origin: ${corsOptions.origin}`);
 
-// Use CORS middleware with specific configuration
 app.use(cors(corsOptions));
-
-app.options('*', cors(corsOptions)); // Preflight OPTIONS isteğini CORS ile izin ver
+app.options('*', cors(corsOptions)); // Preflight OPTIONS request
 
 app.use(express.json());
 
@@ -35,18 +35,23 @@ app.use((req, res, next) => {
   next();
 });
 
-// Statik dosya servisi
+// Static file service
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 app.use("/api/users", userRoutes);
 
 // Connect to MongoDB
-mongoose
-  .connect(mongoUri)
+mongoose.connect(mongoUri, )
   .then(() => {
-    app.listen(process.env.PORT, () => {
-      console.log(`Server is running on port ${process.env.PORT}`);
-    });
+    if (process.env.NODE_ENV === 'development') {
+      app.listen(process.env.PORT, () => {
+        console.log(`HTTP Server is running on port ${process.env.PORT}`);
+      });
+    } else {
+      https.createServer(sslOptions, app).listen(process.env.PORT, () => {
+        console.log(`HTTPS Server is running on port ${process.env.PORT}`);
+      });
+    }
     console.log("Connected to MongoDB");
   })
   .catch((error) => {
