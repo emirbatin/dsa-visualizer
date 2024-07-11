@@ -1,20 +1,34 @@
-import { useState, useEffect } from "react";
+import { useState, useContext, useEffect } from "react";
 import Login from "../components/Login";
-import AlertPopup from "../components/AlertPopup"; // Varsayalım ki böyle bir bileşen var
+import AlertPopup from "../components/AlertPopup"; // Assume such a component exists
+import { AuthContext } from "../context/AuthContext"; // Adjust the path as needed
 
 const AdminPage = () => {
-  const [userEmail, setUserEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+  const { isUserLoggedIn, login } = useContext(AuthContext);
   const [showPopup, setShowPopup] = useState(false);
   const [popupMessage, setPopupMessage] = useState("");
 
-  const handleLogin = (email, password) => {
-    // Burada bir kimlik doğrulama işlemi gerçekleştirilebilir
-    if (email === "admin@example.com" && password === "password123") {
-      setIsUserLoggedIn(true);
-    } else {
-      setPopupMessage("Invalid credentials");
+  const handleLogin = async (email, password, rememberMe) => {
+    try {
+      const response = await fetch("http://localhost:4000/api/users/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password, rememberMe }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        login(data.token, rememberMe);
+      } else {
+        setPopupMessage(data.error);
+        setShowPopup(true);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      setPopupMessage("An error occurred");
       setShowPopup(true);
     }
   };
@@ -25,9 +39,9 @@ const AdminPage = () => {
       timer = setTimeout(() => {
         setShowPopup(false);
         setPopupMessage("");
-      }, 3000); // Popup'un 3 saniye sonra kapanmasını sağlar
+      }, 3000); // Close the popup after 3 seconds
     }
-    return () => clearTimeout(timer); // Cleanup fonksiyonu
+    return () => clearTimeout(timer); // Cleanup function
   }, [showPopup]);
 
   return (
