@@ -12,12 +12,7 @@ const INITIAL_STATE = {
   foundIndex: null,
   showPopup: false,
   popupMessage: "",
-};
-
-const COLORS = {
-  default: "bg-purple-500",
-  current: "bg-blue-500",
-  found: "bg-green-500",
+  dragging: false,
 };
 
 const LinkedListVisualizer = () => {
@@ -323,16 +318,17 @@ const LinkedListVisualizer = () => {
                   index={index}
                   isLast={index === state.linkedList.length - 1}
                   nodeColor={
-                    state.foundIndex === index ||
-                    state.currentSearchIndex === index
-                      ? COLORS.found
-                      : COLORS.default
+                    state.foundIndex === index
+                      ? "linked-list-node found"
+                      : state.currentSearchIndex === index
+                      ? "linked-list-node current"
+                      : "linked-list-node bg-purple-500"
                   }
                   nextColor={
                     state.nextHighlightIndex === index &&
                     state.foundIndex === null
-                      ? COLORS.current
-                      : COLORS.default
+                      ? "linked-list-node current"
+                      : "linked-list-node bg-purple-500"
                   }
                 />
               ))

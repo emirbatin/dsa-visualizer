@@ -28,8 +28,8 @@ const usePanZoom = () => {
       const deltaX = e.clientX - lastMousePos.x;
       const deltaY = e.clientY - lastMousePos.y;
       setPosition((prev) => ({
-        x: Math.min(0, Math.max(-500, prev.x + deltaX)), // limit pan to -500 to 500
-        y: Math.min(0, Math.max(-500, prev.y + deltaY)), // limit pan to -500 to 500
+        x: Math.min(200, Math.max(-500, prev.x + deltaX)), // limit pan to -500 to 500
+        y: Math.min(200, Math.max(-500, prev.y + deltaY)), // limit pan to -500 to 500
       }));
       setLastMousePos({ x: e.clientX, y: e.clientY });
     }

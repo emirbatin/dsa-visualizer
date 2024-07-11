@@ -1,13 +1,18 @@
 import React, { useState, useCallback, useMemo } from "react";
 import AccordionComponent from "../Accordion";
 import { Slider } from "@nextui-org/react";
+import AlertPopup from "../AlertPopup";
 
 const INITIAL_STATE = {
   array: [],
   size: "",
   maxValue: "",
   animationSpeed: 500,
+  showPopup: false,
+  popupMessage: "",
 };
+
+const MAX_SIZE = 10
 
 const SortingVisualizer = () => {
   const [state, setState] = useState(INITIAL_STATE);
@@ -17,11 +22,27 @@ const SortingVisualizer = () => {
   }, []);
 
   const handleCreate = useCallback(() => {
+    if (Number(state.size) > MAX_SIZE) {
+      setState(prev => ({
+        ...prev,
+        showPopup: true,
+        popupMessage: "10'ten büyük bir değer girilemez.",
+      }));
+      setTimeout(() => {
+        setState(prev => ({
+          ...prev,
+          showPopup: false,
+          popupMessage: "",
+        }));
+      }, 2000);
+      return;
+    }
+
     const newArray = Array.from(
       { length: Number(state.size) },
       () => Math.floor(Math.random() * (Number(state.maxValue) + 1))
     );
-    updateState("array", newArray);
+    updateState("array", newArray.slice(0, 15));
   }, [state.size, state.maxValue, updateState]);
 
   const bubbleSort = useCallback((arr, animations) => {
@@ -142,6 +163,13 @@ const SortingVisualizer = () => {
           />
         </div>
       </div>
+      {state.showPopup && (
+        <AlertPopup
+          show={state.showPopup}
+          message={state.popupMessage}
+          onClose={() => setState(prev => ({ ...prev, showPopup: false }))}
+        />
+      )}
     </div>
   );
 };
