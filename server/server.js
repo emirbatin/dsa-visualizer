@@ -14,7 +14,7 @@ const mongoUri = process.env.NODE_ENV === 'development'
 
 // Ortam değişkenlerine göre CORS ayarlarını yapma
 const corsOptions = {
-  origin: process.env.NODE_ENV === 'development' ? "http://localhost:3000" : "https://api.codewithbatin.com",
+  origin: process.env.NODE_ENV === 'development' ? "http://localhost:3000" : "https://dsa-visualizer-api.vercel.app",
   methods: "GET,POST,PUT,DELETE,OPTIONS,PATCH",
   allowedHeaders: "Content-Type,Authorization",
   credentials: true,
