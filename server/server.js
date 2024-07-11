@@ -14,6 +14,11 @@ const mongoUri = process.env.NODE_ENV === 'development'
   ? process.env.MONGO_URI_DEV
   : process.env.MONGO_URI_PROD;
 
+if (!mongoUri) {
+  console.error("Mongo URI is not defined. Check your environment variables.");
+  process.exit(1);
+}
+
 // CORS options based on environment
 const corsOptions = {
   origin: process.env.NODE_ENV === 'development' ? "http://localhost:3000" : "https://dsa-visualizer-api.vercel.app",
@@ -41,7 +46,7 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use("/api/users", userRoutes);
 
 // Connect to MongoDB
-mongoose.connect(mongoUri, )
+mongoose.connect(mongoUri, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
     if (process.env.NODE_ENV === 'development') {
       app.listen(process.env.PORT, () => {
