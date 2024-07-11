@@ -10,7 +10,7 @@ export default defineConfig(({ mode }) => {
       port: 3000,
       proxy: {
         "/api": {
-          target: isDevelopment ? "http://localhost:4000" : "Gerçek url adresi",
+          target: isDevelopment ? "http://localhost:4000" : "https://dsa-visualizer-gilt.vercel.app",
           changeOrigin: true,
           rewrite: (path) => path.replace(/^\/api/, "/api"),
         },
