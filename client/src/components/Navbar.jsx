@@ -1,29 +1,18 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import {
   Navbar as NextUINavbar,
   NavbarBrand,
   NavbarContent,
   Link,
   Input,
-  DropdownItem,
-  DropdownTrigger,
-  Dropdown,
-  DropdownMenu,
-  Avatar,
-  useDisclosure,
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Checkbox,
   Button,
 } from "@nextui-org/react";
 import { useLocation } from "react-router-dom";
-import { EnvelopeIcon, LockClosedIcon } from "@heroicons/react/24/outline";
+import { AuthContext } from "../context/AuthContext"; // Adjust the path as needed
 
 const Navbar = () => {
   const location = useLocation();
+  const { isUserLoggedIn, logout } = useContext(AuthContext);
 
   const getLinks = () => {
     switch (location.pathname) {
@@ -53,10 +42,10 @@ const Navbar = () => {
           },
           { href: "/algorithm/linkedlist/deque", text: "Deque" },
         ];
-        case "/algorithm/binarytree":
+      case "/algorithm/binarytree":
         return [
-          { href: "/algorithm/linkedlist", text: "Binary Search Tree" },
-          { href: "/algorithm/linkedlist/AVL", text: "AVL Tree" },
+          { href: "/algorithm/binarytree", text: "Binary Search Tree" },
+          { href: "/algorithm/binarytree/AVL", text: "AVL Tree" },
         ];
       default:
         return [];
@@ -97,6 +86,13 @@ const Navbar = () => {
             size="sm"
             type="search"
           />
+        )}
+        {isUserLoggedIn ? (
+          <Button auto variant="ghost" className="text-var(--text-color)" onClick={logout}>
+            Log out
+          </Button>
+        ) : (
+          null
         )}
       </NavbarContent>
     </NextUINavbar>

@@ -5,10 +5,11 @@ import { useState } from "react";
 const Login = ({ onLogin }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [rememberMe, setRememberMe] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onLogin(email, password);
+    onLogin(email, password, rememberMe);
   };
 
   return (
@@ -45,18 +46,17 @@ const Login = ({ onLogin }) => {
             classNames={{
               label: "text-small",
             }}
+            checked={rememberMe}
+            onChange={(e) => setRememberMe(e.target.checked)}
           >
-            Remember me
+            <p className="text-var(--text-color)">Remember me</p>
           </Checkbox>
           <Link color="primary" href="#" size="sm">
             Forgot password?
           </Link>
         </div>
         <Spacer y={4} />
-        <Button
-          color="primary"
-          type="submit"
-        >
+        <Button color="primary" type="submit">
           Sign in
         </Button>
       </form>
