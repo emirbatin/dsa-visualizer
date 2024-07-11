@@ -2,7 +2,6 @@ require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const userRoutes = require("./routes/users");
-const projectRoutes = require("./routes/projects");
 const path = require("path");
 const cors = require("cors");
 
@@ -15,7 +14,7 @@ const mongoUri = process.env.NODE_ENV === 'development'
 
 // Ortam değişkenlerine göre CORS ayarlarını yapma
 const corsOptions = {
-  origin: process.env.NODE_ENV === 'development' ? "http://localhost:3000" : "https://api.codewithbatin.com",
+  origin: process.env.NODE_ENV === 'development' ? "http://localhost:3000" : "https://dsa-visualizer-api.vercel.app",
   methods: "GET,POST,PUT,DELETE,OPTIONS,PATCH",
   allowedHeaders: "Content-Type,Authorization",
   credentials: true,
@@ -40,7 +39,6 @@ app.use((req, res, next) => {
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 app.use("/api/users", userRoutes);
-app.use("/api/projects", projectRoutes);
 
 // Connect to MongoDB
 mongoose
