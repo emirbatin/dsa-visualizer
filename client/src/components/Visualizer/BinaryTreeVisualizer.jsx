@@ -5,11 +5,14 @@ import usePanZoom from "../../hooks/usePanZoom";
 import AlertPopup from "../AlertPopup";
 import { BinarySearchTree } from "../../utils/binarySearchTree";
 import calculateNodePositions from "../../utils/calculateNodePositions";
+import { Slider } from "@nextui-org/react";
 
 const INITIAL_STATE = {
   inputValue: "",
   showPopup: false,
   popupMessage: "",
+  animationSpeed: 500,
+  dragging: false,
 };
 
 const MAX_NODES = 15;
@@ -21,8 +24,9 @@ const BinaryTreeVisualizer = () => {
   const [coords, setCoords] = useState([]);
   const [links, setLinks] = useState([]);
   const [inputValue, setInputValue] = useState(INITIAL_STATE.inputValue);
-  const [{ showPopup, popupMessage }, setState] = useState(INITIAL_STATE);
-  const { containerRef, scale, position } = usePanZoom();
+  const [{ showPopup, popupMessage, animationSpeed }, setState] =
+    useState(INITIAL_STATE);
+  const { containerRef, scale, position, dragging } = usePanZoom();
   const [bst] = useState(() => {
     const tree = new BinarySearchTree();
     [29, 19, 48].forEach((value) => tree.insert(value));
@@ -91,15 +95,20 @@ const BinaryTreeVisualizer = () => {
         showError(`Cannot insert more than ${MAX_NODES} nodes.`);
         return;
       }
-      await bst.insertWithAnimation(intValue, (node, link) => {
-        if (node) setHighlightedNode(node);
-        if (link) setHighlightedLink(link);
-        updateTree();
-      });
+      await bst.insertWithAnimation(
+        intValue,
+        async (node, link) => {
+          if (node) setHighlightedNode(node);
+          if (link) setHighlightedLink(link);
+          updateTree();
+          await new Promise((resolve) => setTimeout(resolve, animationSpeed));
+        },
+        animationSpeed
+      );
       setHighlightedNode(null);
       setHighlightedLink(null);
     },
-    [bst, showError, updateTree]
+    [bst, showError, updateTree, animationSpeed]
   );
 
   const handleRemove = useCallback(
@@ -109,15 +118,20 @@ const BinaryTreeVisualizer = () => {
         showError("Please enter a valid number.");
         return;
       }
-      await bst.removeWithAnimation(intValue, (node, link) => {
-        if (node) setHighlightedNode(node);
-        if (link) setHighlightedLink(link);
-        updateTree();
-      });
+      await bst.removeWithAnimation(
+        intValue,
+        async (node, link) => {
+          if (node) setHighlightedNode(node);
+          if (link) setHighlightedLink(link);
+          updateTree();
+          await new Promise((resolve) => setTimeout(resolve, animationSpeed));
+        },
+        animationSpeed
+      );
       setHighlightedNode(null);
       setHighlightedLink(null);
     },
-    [bst, showError, updateTree]
+    [bst, showError, updateTree, animationSpeed]
   );
 
   const handleSearch = useCallback(
@@ -132,11 +146,13 @@ const BinaryTreeVisualizer = () => {
 
       const foundNode = await bst.searchWithAnimation(
         intValue,
-        (node, link) => {
+        async (node, link) => {
           if (node) setHighlightedNode(node);
           if (link) setHighlightedLink(link);
           updateTree();
-        }
+          await new Promise((resolve) => setTimeout(resolve, animationSpeed));
+        },
+        animationSpeed
       );
       setHighlightedNode(null);
       setHighlightedLink(null);
@@ -151,7 +167,38 @@ const BinaryTreeVisualizer = () => {
         showError(`Value ${intValue} not found in the tree.`);
       }
     },
-    [bst, showError, updateTree]
+    [bst, showError, updateTree, animationSpeed]
+  );
+
+  const handleTraversal = useCallback(
+    async (type) => {
+      const visitCallback = async (node) => {
+        setHighlightedNode(node);
+        updateTree();
+        await new Promise((resolve) => setTimeout(resolve, animationSpeed));
+      };
+      if (type === "inorder") {
+        await bst.inorderTraversalWithAnimation(
+          bst.root,
+          visitCallback,
+          animationSpeed
+        );
+      } else if (type === "preorder") {
+        await bst.preorderTraversalWithAnimation(
+          bst.root,
+          visitCallback,
+          animationSpeed
+        );
+      } else if (type === "postorder") {
+        await bst.postorderTraversalWithAnimation(
+          bst.root,
+          visitCallback,
+          animationSpeed
+        );
+      }
+      setHighlightedNode(null);
+    },
+    [bst, updateTree, animationSpeed]
   );
 
   const accordionItems = useMemo(
@@ -225,19 +272,52 @@ const BinaryTreeVisualizer = () => {
         buttonText: "Search",
         onClick: () => handleSearch(inputValue),
       },
+      {
+        key: "inorder",
+        ariaLabel: "Inorder Traversal",
+        icon: "sort",
+        title: "Inorder Traversal",
+        buttonColor: "purple",
+        buttonText: "Inorder",
+        onClick: () => handleTraversal("inorder"),
+      },
+      {
+        key: "preorder",
+        ariaLabel: "Preorder Traversal",
+        icon: "sort",
+        title: "Preorder Traversal",
+        buttonColor: "orange",
+        buttonText: "Preorder",
+        onClick: () => handleTraversal("preorder"),
+      },
+      {
+        key: "postorder",
+        ariaLabel: "Postorder Traversal",
+        icon: "sort",
+        title: "Postorder Traversal",
+        buttonColor: "pink",
+        buttonText: "Postorder",
+        onClick: () => handleTraversal("postorder"),
+      },
     ],
-    [inputValue, handleCreate, handleInsert, handleRemove, handleSearch]
+    [
+      inputValue,
+      handleCreate,
+      handleInsert,
+      handleRemove,
+      handleSearch,
+      handleTraversal,
+    ]
   );
 
   return (
-    <div>
+    <div className="unselectable">
       <div
         ref={containerRef}
         style={{
-          width: "100vw",
-          height: "100vh",
           overflow: "hidden",
           position: "relative",
+          cursor: dragging ? "grabbing" : "grab",
         }}
       >
         <svg
@@ -278,6 +358,16 @@ const BinaryTreeVisualizer = () => {
       </div>
       <div className="fixed bottom-0 left-0 p-4">
         <AccordionComponent items={accordionItems} />
+        <Slider
+          label="Animation Speed"
+          step={100}
+          maxValue={2000}
+          minValue={100}
+          defaultValue={500}
+          onChange={(value) =>
+            setState((prev) => ({ ...prev, animationSpeed: value }))
+          }
+        />
       </div>
       <AlertPopup
         show={showPopup}
