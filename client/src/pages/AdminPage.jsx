@@ -7,10 +7,11 @@ const AdminPage = () => {
   const { isUserLoggedIn, login } = useContext(AuthContext);
   const [showPopup, setShowPopup] = useState(false);
   const [popupMessage, setPopupMessage] = useState("");
+  const baseURL = import.meta.env.VITE_API_URL;
 
   const handleLogin = async (email, password, rememberMe) => {
     try {
-      const response = await fetch("http://localhost:4000/api/users/login", {
+      const response = await fetch(`${baseURL}/api/users/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
