@@ -7,6 +7,7 @@ import {
   PencilSquareIcon,
   CheckCircleIcon,
 } from "@heroicons/react/24/solid";
+import { ClipboardDocumentCheckIcon, MagnifyingGlassCircleIcon } from "@heroicons/react/24/outline";
 
 const iconMap = {
   plus: <PlusCircleIcon className="text-primary h-6 w-6" />,
@@ -14,6 +15,8 @@ const iconMap = {
   trash: <TrashIcon className="text-red-500 h-6 w-6" />,
   pencil: <PencilSquareIcon className="text-yellow-500 h-6 w-6" />,
   check: <CheckCircleIcon className="text-purple-500 h-6 w-6" />,
+  check2: <ClipboardDocumentCheckIcon className="h-6 w-6 text-green-500" />,
+  search: <MagnifyingGlassCircleIcon className="h-6 w-6 text-orange-500" />
 };
 
 const AccordionComponent = ({ items }) => {

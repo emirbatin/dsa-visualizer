@@ -158,7 +158,6 @@ const BinaryTreeVisualizer = () => {
       setHighlightedLink(null);
       setFoundNode(foundNode);
       if (foundNode) {
-        showError(`Value ${intValue} found in the tree!`);
         setTimeout(() => {
           setFoundNode(null);
           updateTree();
@@ -275,7 +274,7 @@ const BinaryTreeVisualizer = () => {
       {
         key: "inorder",
         ariaLabel: "Inorder Traversal",
-        icon: "sort",
+        icon: "check2",
         title: "Inorder Traversal",
         buttonColor: "purple",
         buttonText: "Inorder",
@@ -284,7 +283,7 @@ const BinaryTreeVisualizer = () => {
       {
         key: "preorder",
         ariaLabel: "Preorder Traversal",
-        icon: "sort",
+        icon: "check2",
         title: "Preorder Traversal",
         buttonColor: "orange",
         buttonText: "Preorder",
@@ -293,9 +292,9 @@ const BinaryTreeVisualizer = () => {
       {
         key: "postorder",
         ariaLabel: "Postorder Traversal",
-        icon: "sort",
+        icon: "check2",
         title: "Postorder Traversal",
-        buttonColor: "pink",
+        buttonColor: "red",
         buttonText: "Postorder",
         onClick: () => handleTraversal("postorder"),
       },
