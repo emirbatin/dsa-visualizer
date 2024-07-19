@@ -2,16 +2,16 @@ import { useState, useContext, useEffect } from "react";
 import Login from "../components/Login";
 import AlertPopup from "../components/AlertPopup"; // Assume such a component exists
 import { AuthContext } from "../context/AuthContext"; // Adjust the path as needed
+import DashboardPage from "./DashboardPage";
 
 const AdminPage = () => {
   const { isUserLoggedIn, login } = useContext(AuthContext);
   const [showPopup, setShowPopup] = useState(false);
   const [popupMessage, setPopupMessage] = useState("");
-  const baseURL = import.meta.env.VITE_API_URL;
 
   const handleLogin = async (email, password, rememberMe) => {
     try {
-      const response = await fetch(`${baseURL}/api/users/login`, {
+      const response = await fetch("http://localhost:4000/api/users/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -50,7 +50,7 @@ const AdminPage = () => {
       {!isUserLoggedIn ? (
         <Login onLogin={handleLogin} />
       ) : (
-        <h1>Admin Panel</h1>
+        <DashboardPage/>
       )}
       {showPopup && (
         <AlertPopup show={showPopup} message={popupMessage} onClose={() => setShowPopup(false)} />

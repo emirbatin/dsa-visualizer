@@ -1,8 +1,7 @@
-// components/Cards.js
 import React from "react";
 import { Card, CardFooter, Image, Button } from "@nextui-org/react";
 
-const Cards = ({ cardTitle, imagePath, imageAlt, uuid, onLearnClick }) => {
+const Cards = ({ cardTitle, imagePath, imageAlt, uuid, onLearnClick, buttonText }) => {
   const handleLearnClick = () => {
     onLearnClick(uuid);
   };
@@ -27,7 +26,7 @@ const Cards = ({ cardTitle, imagePath, imageAlt, uuid, onLearnClick }) => {
             size="sm"
             onClick={handleLearnClick}
           >
-            Learn
+            {buttonText}
           </Button>
         </CardFooter>
       </Card>

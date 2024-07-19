@@ -35,7 +35,7 @@ const LinkedListNode = ({ value, index, isLast, nodeColor, nextColor }) => {
       </div>
       <Spacer x={4} />
       <div className="flex items-center">
-        {!isLast ? <ArrowRightIcon className="h-6 w-6 text-var(--text-color)" /> : null}
+        {!isLast ? <ArrowRightIcon className="h-6 w-6 text-black" /> : null}
       </div>
       <Spacer x={4} />
     </div>
