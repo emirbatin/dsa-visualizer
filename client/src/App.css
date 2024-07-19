@@ -8,8 +8,8 @@
 }
 
 .tree-node {
-  stroke: var(--text-color);
-  fill: var(--background-color);
+  stroke: black;
+  fill: white;
   stroke-width: 2;
   transition: stroke 0.5s ease, fill 0.5s ease;
 }
@@ -20,7 +20,7 @@
 }
 
 .tree-text {
-  fill: var(--text-color);
+  fill: black;
   transition: fill 0.5s ease;
 }
 
@@ -29,7 +29,7 @@
 }
 
 .tree-line {
-  stroke: var(--text-color);
+  stroke: black;
   stroke-width: 2;
   transition: stroke 0.5s ease;
 }
@@ -48,4 +48,17 @@
 
 .linked-list-node.found {
   background-color: orange;
+}
+
+/* styles.css */
+.markdown-content p {
+  margin-bottom: 16px; /* Satır arası boşluk ayarı */
+  line-height: 1.6; /* Satır yüksekliği ayarı */
+}
+
+.markdown-content h1,
+.markdown-content h2,
+.markdown-content h3 {
+  margin-top: 24px; /* Başlıkların üst boşluk ayarı */
+  margin-bottom: 16px; /* Başlıkların alt boşluk ayarı */
 }

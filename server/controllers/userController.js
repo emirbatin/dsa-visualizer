@@ -1,5 +1,5 @@
 const User = require("../models/userModel.js");
-const bcrypt = require("bcryptjs");
+const bcrypt = require("bcrypt");
 const fs = require("fs");
 const path = require("path");
 const saltRounds = 10;
@@ -38,6 +38,8 @@ exports.createUser = async (req, res) => {
 };
 
 // Kullanıcı Girişi
+// Backend - userController.js
+// User Login
 exports.loginUser = async (req, res) => {
   try {
     const { email, password, rememberMe } = req.body;

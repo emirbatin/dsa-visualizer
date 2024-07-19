@@ -1,22 +1,30 @@
-// pages/MainPage.js
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Cards from "../components/Cards";
-import { algorithmContent } from "../data/algorithmContent";
 
 const MainPage = () => {
+  const [algorithms, setAlgorithms] = useState([]);
   const navigate = useNavigate();
 
-  const cardData = Object.keys(algorithmContent).map((key) => ({
-    uuid: key,
-    cardTitle: algorithmContent[key].title,
-    imagePath: algorithmContent[key].image,
-    imageAlt: `${algorithmContent[key].title} Image`,
-  }));
+  useEffect(() => {
+    const fetchAlgorithms = async () => {
+      const response = await fetch('/api/algorithms');
+      const data = await response.json();
+      setAlgorithms(data);
+    };
+    fetchAlgorithms();
+  }, []);
 
   const handleLearnClick = (uuid) => {
     navigate(`/algorithm/${uuid}`);
   };
+
+  const cardData = algorithms.map((algorithm) => ({
+    uuid: algorithm._id,
+    cardTitle: algorithm.name,
+    imagePath: algorithm.image,
+    imageAlt: `${algorithm.name} Image`,
+  }));
 
   return (
     <div
@@ -37,6 +45,7 @@ const MainPage = () => {
           imageAlt={card.imageAlt}
           uuid={card.uuid}
           onLearnClick={handleLearnClick}
+          buttonText="Learn"
         />
       ))}
     </div>
