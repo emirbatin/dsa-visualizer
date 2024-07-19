@@ -18,7 +18,7 @@ const AlgorithmPage = () => {
   useEffect(() => {
     const fetchAlgorithm = async () => {
       try {
-        const response = await fetch(`/api/algorithms/${algorithmId}`);
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/algorithms/${algorithmId}`);
         if (!response.ok) throw new Error('Error fetching data');
         const data = await response.json();
         setContent(data);

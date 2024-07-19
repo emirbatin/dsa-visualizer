@@ -8,7 +8,7 @@ const MainPage = () => {
 
   useEffect(() => {
     const fetchAlgorithms = async () => {
-      const response = await fetch('/api/algorithms');
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/algorithms`);
       const data = await response.json();
       setAlgorithms(data);
     };
