@@ -21,7 +21,7 @@ const corsOptions = {
   origin:
     process.env.NODE_ENV === "development"
       ? "http://localhost:3000"
-      : "https://dsa-visualizer-api.vercel.app",
+      : "https://dsa-visualizer-gold.vercel.app",
   methods: "GET,POST,PUT,DELETE,OPTIONS,PATCH",
   allowedHeaders: "Content-Type,Authorization",
   credentials: true,
