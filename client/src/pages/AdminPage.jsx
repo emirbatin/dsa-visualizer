@@ -2,6 +2,7 @@ import { useState, useContext, useEffect } from "react";
 import Login from "../components/Login";
 import AlertPopup from "../components/AlertPopup"; // Assume such a component exists
 import { AuthContext } from "../context/AuthContext"; // Adjust the path as needed
+import DashboardPage from "./DashboardPage";
 
 const AdminPage = () => {
   const { isUserLoggedIn, login } = useContext(AuthContext);
@@ -49,7 +50,7 @@ const AdminPage = () => {
       {!isUserLoggedIn ? (
         <Login onLogin={handleLogin} />
       ) : (
-        <h1>Admin Panel</h1>
+        <DashboardPage/>
       )}
       {showPopup && (
         <AlertPopup show={showPopup} message={popupMessage} onClose={() => setShowPopup(false)} />
