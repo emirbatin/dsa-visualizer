@@ -21,7 +21,7 @@ const corsOptions = {
   origin:
     process.env.NODE_ENV === "development"
       ? "http://localhost:3000"
-      : "https://api.codewithbatin.com",
+      : "https://dsa-visualizer-gold.vercel.app", // Client address
   methods: "GET,POST,PUT,DELETE,OPTIONS,PATCH",
   allowedHeaders: "Content-Type,Authorization",
   credentials: true,
@@ -63,3 +63,5 @@ mongoose
   .catch((error) => {
     console.error("Error connecting to MongoDB:", error);
   });
+
+module.exports = app;

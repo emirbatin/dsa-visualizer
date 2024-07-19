@@ -9,18 +9,19 @@ const AdminPage = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [popupMessage, setPopupMessage] = useState("");
 
-  const handleLogin = async (email, password, rememberMe) => {
+  const handleLogin = async (event, email, password, rememberMe) => {
+    event.preventDefault();
     try {
-      const response = await fetch("http://localhost:4000/api/users/login", {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/users/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ email, password, rememberMe }),
       });
-
+  
       const data = await response.json();
-
+  
       if (response.ok) {
         login(data.token, rememberMe);
       } else {
@@ -32,7 +33,7 @@ const AdminPage = () => {
       setPopupMessage("An error occurred");
       setShowPopup(true);
     }
-  };
+  };  
 
   useEffect(() => {
     let timer;

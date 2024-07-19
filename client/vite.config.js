@@ -3,14 +3,16 @@ import react from "@vitejs/plugin-react";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
-  const isDevelopment = mode === 'development';
+  const isDevelopment = mode === "development";
 
   return {
     server: {
       port: 3000,
       proxy: {
         "/api": {
-          target: isDevelopment ? "http://localhost:4000" : "https://dsa-visualizer-gilt.vercel.app",
+          target: isDevelopment
+            ? "http://localhost:4000"
+            : "https://dsa-visualizer-api.vercel.app",
           changeOrigin: true,
           rewrite: (path) => path.replace(/^\/api/, "/api"),
         },
@@ -18,7 +20,7 @@ export default defineConfig(({ mode }) => {
     },
     plugins: [react()],
     define: {
-      'process.env': {
+      "process.env": {
         NODE_ENV: mode,
       },
     },

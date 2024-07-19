@@ -9,8 +9,8 @@ const Login = ({ onLogin }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onLogin(email, password, rememberMe);
-  };
+    onLogin(e, email, password, rememberMe);
+  };  
 
   return (
     <div className="flex flex-col w-[500px]">

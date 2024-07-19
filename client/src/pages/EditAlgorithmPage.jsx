@@ -17,7 +17,7 @@ const EditAlgorithmPage = () => {
 
   useEffect(() => {
     const fetchAlgorithm = async () => {
-      const response = await fetch(`/api/algorithms/${id}`);
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/algorithms/${id}`);
       const data = await response.json();
       setName(data.name);
       setDescription(data.description);
@@ -33,7 +33,7 @@ const EditAlgorithmPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await fetch(`/api/algorithms/${id}`, {
+    await fetch(`${import.meta.env.VITE_API_URL}/api/algorithms/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -44,7 +44,7 @@ const EditAlgorithmPage = () => {
   };
 
   const handleDelete = async () => {
-    await fetch(`/api/algorithms/${id}`, {
+    await fetch(`${import.meta.env.VITE_API_URL}/api/algorithms/${id}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -94,11 +94,9 @@ const EditAlgorithmPage = () => {
         />
         <Spacer y={4} />
         <div className='flex flex-row'>
-      
-        <Button type="submit" color="primary"  auto>Save</Button>
-        <Spacer x={4} />
-        <Button type="button" auto color="danger" onClick={handleDelete}>Delete</Button>
-
+          <Button type="submit" color="primary" auto>Save</Button>
+          <Spacer x={4} />
+          <Button type="button" auto color="danger" onClick={handleDelete}>Delete</Button>
         </div>
       </form>
     </div>

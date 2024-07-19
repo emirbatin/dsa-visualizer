@@ -24,7 +24,7 @@ const AddAlgorithmPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await fetch('/api/algorithms', {
+    await fetch(`${import.meta.env.VITE_API_URL}/api/algorithms`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

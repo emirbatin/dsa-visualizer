@@ -7,13 +7,29 @@ import { color } from 'framer-motion';
 
 const DashboardPage = () => {
   const [algorithms, setAlgorithms] = useState([]);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchAlgorithms = async () => {
-      const response = await fetch('/api/algorithms');
-      const data = await response.json();
-      setAlgorithms(data);
+      try {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/algorithms`);
+        
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+
+        const contentType = response.headers.get("content-type");
+        if (!contentType || !contentType.includes("application/json")) {
+          throw new TypeError("Expected JSON response");
+        }
+
+        const data = await response.json();
+        setAlgorithms(data);
+      } catch (error) {
+        console.error("Fetch error:", error);
+        setError(error.message);
+      }
     };
     fetchAlgorithms();
   }, []);
@@ -39,22 +55,25 @@ const DashboardPage = () => {
       </div>
   
       <div className='flex flex-row flex-wrap' style={{ gap: '16px', padding: 20 }}>
-        {cardData.map((card) => (
-          <Cards
-            key={card.uuid}
-            cardTitle={card.cardTitle}
-            imagePath={card.imagePath}
-            imageAlt={card.imageAlt}
-            uuid={card.uuid}
-            onLearnClick={handleLearnClick}
-            buttonText="Edit"
-            style={{ flex: '1 0 200px' }}
-          />
-        ))}
+        {error ? (
+          <p>Error: {error}</p>
+        ) : (
+          cardData.map((card) => (
+            <Cards
+              key={card.uuid}
+              cardTitle={card.cardTitle}
+              imagePath={card.imagePath}
+              imageAlt={card.imageAlt}
+              uuid={card.uuid}
+              onLearnClick={handleLearnClick}
+              buttonText="Edit"
+              style={{ flex: '1 0 200px' }}
+            />
+          ))
+        )}
       </div>
     </div>
   );
-  };
-  
-  export default DashboardPage;
-  
+};
+
+export default DashboardPage;
